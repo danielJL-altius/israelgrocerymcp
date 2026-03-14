@@ -530,11 +530,42 @@ async def diagnose(store_id: Optional[str] = None, test_query: str = "eggs") -> 
 
 
 # ---------------------------------------------------------------------------
+# Startup: auto-login if credentials are in the environment
+# ---------------------------------------------------------------------------
+
+
+async def _auto_login() -> None:
+    """
+    Silently log in to stores at startup if credentials are configured in .env.
+    Skips login if a valid session already exists.
+    """
+    import sys
+
+    # Tiv Taam — email + password from env
+    tt_cfg = _get_settings().tivtaam
+    if tt_cfg.email and tt_cfg.password:
+        session = _get_store().load_session("tivtaam")
+        already_ok = bool(session and session.get("token"))
+        if not already_ok:
+            registry = _get_registry()
+            store = registry.get("tivtaam")
+            if store:
+                msg = await store.login(tt_cfg.email, tt_cfg.password)  # type: ignore[attr-defined]
+                print(f"[israelgrocery] Tiv Taam auto-login: {msg}", file=sys.stderr)
+        else:
+            print("[israelgrocery] Tiv Taam: using existing session.", file=sys.stderr)
+
+
+# ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
 
 
 def main() -> None:
+    import asyncio
+
+    # Run startup tasks (auto-login) before handing off to the MCP event loop
+    asyncio.run(_auto_login())
     mcp.run(transport="stdio")
 
 
