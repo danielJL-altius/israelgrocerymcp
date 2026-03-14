@@ -1,0 +1,48 @@
+{
+  "manifest_version": "0.1",
+  "name": "israelgrocery",
+  "display_name": "Israel Grocery MCP",
+  "version": "0.1.0",
+  "description": "Unified MCP server for Israeli grocery shopping across Shufersal and Tiv Taam. Compare prices, plan recipes, and add items to cart from the best-priced store.",
+  "author": {
+    "name": "danielJL-altius",
+    "email": "daniel.leubitz@altius.capital"
+  },
+  "server": {
+    "type": "python",
+    "entry_point": "src/server.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "${__dirname}",
+        "run",
+        "israelgrocery-mcp"
+      ],
+      "env": {
+        "ISRAELGROCERY_STATE_DIR": ".local/state",
+        "ISRAELGROCERY_DEBUG_DIR": ".local/debug",
+        "ISRAELGROCERY_BROWSER_DIR": ".local/browser",
+        "ISRAELGROCERY_MAX_SEARCH_RESULTS": "8",
+        "SHUFERSAL_BASE_URL": "https://www.shufersal.co.il",
+        "SHUFERSAL_STOREFRONT_PREFIX": "/online/he",
+        "SHUFERSAL_REQUEST_TIMEOUT_SECONDS": "20",
+        "SHUFERSAL_LOGIN_TIMEOUT_SECONDS": "600",
+        "SHUFERSAL_BROWSER_CHANNEL": "chrome",
+        "TIVTAAM_BASE_URL": "https://www.tivtaam.co.il",
+        "TIVTAAM_RETAILER_ID": "1062",
+        "TIVTAAM_BRANCH_ID": "943",
+        "TIVTAAM_REQUEST_TIMEOUT_SECONDS": "20"
+      }
+    }
+  },
+  "keywords": [
+    "shopping",
+    "groceries",
+    "recipes",
+    "shufersal",
+    "tivtaam",
+    "israel",
+    "price-comparison"
+  ]
+}

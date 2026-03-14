@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.env
+.local/
+*.egg-info/
+dist/
+.pytest_cache/
+israelgrocery.mcpb
