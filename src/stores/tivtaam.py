@@ -72,7 +72,7 @@ class TivTaamStore(BaseStore):
             try:
                 resp = await client.post(
                     self._cfg.sessions_url,
-                    json={"email": email, "password": password},
+                    json={"username": email, "password": password},
                 )
             except Exception as exc:
                 return f"Login failed: {exc}"
